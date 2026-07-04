@@ -1,24 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
+import InteractiveArmorReveal from "@/components/InteractiveArmorReveal";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen bg-neutral-50 flex flex-col items-center justify-center px-4 py-12 gap-8">
+      <header className="text-center max-w-2xl">
+        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-neutral-900">
+          Revele a armadura
+        </h1>
+        <p className="mt-3 text-neutral-600">
+          Passe o mouse para revelar. Clique e segure para ativar os LEDs.
+        </p>
+      </header>
+      <InteractiveArmorReveal />
+    </main>
   );
 }
