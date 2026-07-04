@@ -7,8 +7,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="min-h-screen bg-neutral-50 flex flex-col items-center justify-center px-4 py-12 gap-8">
-      <header className="text-center max-w-2xl">
+    <main className="h-screen w-screen bg-neutral-50 flex items-center justify-center overflow-hidden">
+      <header className="absolute top-8 left-0 right-0 z-10 text-center px-4">
         <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-neutral-900">
           Revele a armadura
         </h1>

@@ -42,8 +42,8 @@ export default function InteractiveArmorReveal({
   return (
     <div
       ref={ref}
-      className="relative w-full max-w-3xl mx-auto overflow-hidden rounded-2xl bg-neutral-100 select-none touch-none cursor-crosshair"
-      style={{ aspectRatio: "1920 / 1280" }}
+      className="relative w-[70vw] h-screen mx-auto overflow-hidden rounded-2xl bg-neutral-100 select-none touch-none cursor-crosshair"
+      style={{ aspectRatio: "unset" }}
       onPointerEnter={() => setActive(true)}
       onPointerLeave={() => {
         setActive(false);
