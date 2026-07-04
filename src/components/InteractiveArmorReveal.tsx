@@ -1,7 +1,7 @@
 import { useRef, useState, type PointerEvent } from "react";
 import img1 from "@/assets/andrey.png";
 import img2 from "@/assets/andrey-ciborg-led-menos.png";
-import img3 from "@/assets/andrey-ciborg-led-mais.png";
+import img3 from "@/assets/andrey-ciborg-completo.png";
 
 interface Props {
   baseImage?: string;
@@ -15,7 +15,7 @@ export default function InteractiveArmorReveal({
   baseImage = img1,
   revealImage = img2,
   pressImage = img3,
-  radius = 180,
+  radius = 140,
   feather = 60,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
