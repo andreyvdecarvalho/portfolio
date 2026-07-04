@@ -8,8 +8,8 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="h-screen w-screen bg-neutral-50 flex items-center justify-center overflow-hidden">
-      <header className="absolute top-8 left-0 right-0 z-10 text-center px-4">
-        <p className="text-sm md:text-base text-neutral-600">
+      <header className="absolute top-3 left-0 right-0 z-10 text-center px-4">
+        <p className="text-xs md:text-sm text-neutral-600">
           Passe o mouse para revelar. Clique e segure para ativar os LEDs.
         </p>
       </header>
