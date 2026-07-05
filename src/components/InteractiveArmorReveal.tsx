@@ -1,6 +1,6 @@
 import { useRef, useState, type PointerEvent } from "react";
 import img1 from "@/assets/andrey.png";
-import img2 from "@/assets/andrey-ciborg-led-menos.png";
+import img2 from "@/assets/andrey-ciborg.png";
 import img3 from "@/assets/andrey-ciborg-completo.png";
 
 interface Props {
@@ -42,7 +42,7 @@ export default function InteractiveArmorReveal({
   return (
     <div
       ref={ref}
-      className="relative w-[70vw] h-screen mx-auto overflow-hidden rounded-2xl bg-white select-none touch-none cursor-crosshair"
+      className="relative w-[70vw] h-screen mx-auto overflow-hidden rounded-2xl bg-background select-none touch-none cursor-crosshair"
       style={{ aspectRatio: "unset" }}
       onPointerEnter={() => setActive(true)}
       onPointerLeave={() => {
