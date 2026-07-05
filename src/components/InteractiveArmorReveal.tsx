@@ -42,7 +42,7 @@ export default function InteractiveArmorReveal({
   return (
     <div
       ref={ref}
-      className="relative w-[70vw] h-screen mx-auto overflow-hidden rounded-2xl bg-neutral-100 select-none touch-none cursor-crosshair"
+      className="relative w-[70vw] h-screen mx-auto overflow-hidden rounded-2xl bg-white select-none touch-none cursor-crosshair"
       style={{ aspectRatio: "unset" }}
       onPointerEnter={() => setActive(true)}
       onPointerLeave={() => {
@@ -62,20 +62,31 @@ export default function InteractiveArmorReveal({
         alt="Andrey"
         draggable={false}
         className="absolute inset-0 w-full h-full object-cover"
+        style={{ transform: "translate(0%, 0%) scale(1)", transformOrigin: "center top" }}
       />
       <img
         src={revealImage}
         alt="Andrey armor"
         draggable={false}
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        style={maskStyle}
+        style={{
+          ...maskStyle,
+          transform: "translate(0%, 0%) scale(1)",
+          transformOrigin: "center top",
+          filter: "brightness(1.07) contrast(0.97)",
+        }}
       />
       <img
         src={pressImage}
         alt="Andrey armor activated"
         draggable={false}
         className="absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-200 ease-out"
-        style={{ opacity: pressed ? 1 : 0 }}
+        style={{
+          opacity: pressed ? 1 : 0,
+          transform: "translate(0%, 0.7%) scale(0.98)",
+          transformOrigin: "center top",
+          filter: "brightness(1.07) contrast(0.97)",
+        }}
       />
     </div>
   );
