@@ -42,8 +42,8 @@ export default function InteractiveArmorReveal({
   return (
     <section className="relative h-screen w-full flex items-center justify-center">
       {/* Instrução de uso */}
-      <p className="absolute top-3 left-0 right-0 z-10 text-center text-xs md:text-sm text-neutral-500 pointer-events-none select-none">
-        Passe o mouse para revelar. Clique e segure para ativar os LEDs.
+      <p className="absolute top-1 left-0 right-0 z-10 text-center text-[10px] md:text-xs text-neutral-500 pointer-events-none select-none">
+        Passe o mouse e clique para revelar
       </p>
 
       <div
@@ -96,14 +96,7 @@ export default function InteractiveArmorReveal({
         />
       </div>
 
-      {/* Scroll indicator — não interfere na lógica interna */}
-      <div className="scroll-indicator" aria-hidden="true">
-        <span className="scroll-indicator-text">role para continuar</span>
-        <div className="scroll-chevrons">
-          <span />
-          <span />
-        </div>
-      </div>
+
     </section>
   );
 }
