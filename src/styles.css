@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -140,4 +141,356 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
 }
+
+/* ─── Neon palette ───────────────────────────────────────────────── */
+:root {
+  --neon: #00ff88;
+  --neon-dim: #00cc6a;
+  --neon-glow: 0 0 8px #00ff88, 0 0 24px #00ff8855;
+  --dark-bg: #0a0b0d;
+  --dark-mid: #10131a;
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────────── */
+@keyframes neon-pulse {
+  0%, 100% { box-shadow: 0 0 6px var(--neon), 0 0 18px #00ff8840; }
+  50%       { box-shadow: 0 0 14px var(--neon), 0 0 40px #00ff8866; }
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50%       { transform: translateY(6px); opacity: 0.5; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Scroll Indicator ───────────────────────────────────────────── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 20;
+  pointer-events: none;
+  user-select: none;
+}
+
+.scroll-indicator-text {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: oklch(0.554 0.046 257.417);
+}
+
+.scroll-chevrons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.scroll-chevrons span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid oklch(0.554 0.046 257.417);
+  border-bottom: 2px solid oklch(0.554 0.046 257.417);
+  transform: rotate(45deg);
+  animation: scroll-bounce 1.6s ease-in-out infinite;
+}
+
+.scroll-chevrons span:nth-child(2) {
+  animation-delay: 0.25s;
+  opacity: 0.6;
+}
+
+/* ─── Gradient transition (claro → escuro) ───────────────────────── */
+.narrative-gradient-transition {
+  position: absolute;
+  top: -150px; /* Pulls the gradient UP over the previous section */
+  left: 0;
+  width: 100%;
+  height: 151px; /* 1px extra to ensure no seam at the bottom */
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--dark-bg)
+  );
+  z-index: 30; /* Overlays the previous section's elements */
+  pointer-events: none;
+}
+
+/* ─── Narrative Root ─────────────────────────────────────────────── */
+#narrative-root {
+  position: relative;
+  background-color: var(--dark-bg);
+}
+
+/* ─── Sticky Scroll Area ─────────────────────────────────────────── */
+/* This div is tall (height set via inline style in JS). It creates  */
+/* the scroll budget. The sticky child stays glued to the viewport.  */
+.ns-scroll-area {
+  position: relative;
+}
+
+.ns-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 42% 58%;
+  background-color: var(--dark-bg);
+}
+
+/* ─── Video Scrubber ──────────────────────────────────────────────── */
+.ns-video-wrapper {
+  position: relative;
+  grid-column: 2;
+  overflow: hidden;
+  background-color: var(--dark-bg);
+}
+
+.ns-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+.ns-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    var(--dark-bg) 0%,
+    rgba(10, 11, 13, 0.45) 25%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+/* ─── Text Panels — stacked, crossfade ──────────────────────────── */
+.ns-panels-wrapper {
+  position: relative;
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  padding-left: clamp(2rem, 5vw, 5rem);
+  z-index: 2;
+}
+
+.ns-panel {
+  position: absolute;
+  top: 50%;
+  left: clamp(2rem, 5vw, 5rem);
+  right: 2rem;
+  transform: translateY(calc(-50% + 24px));
+  opacity: 0;
+  transition:
+    opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.ns-panel.ns-active {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+/* ─── Counter ────────────────────────────────────────────────────── */
+.ns-counter {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.ns-counter-active {
+  font-family: "Orbitron", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--neon);
+  line-height: 1;
+  text-shadow: var(--neon-glow);
+}
+
+.ns-counter-sep {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 2px;
+}
+
+.ns-counter-total {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* ─── Label ──────────────────────────────────────────────────────── */
+.ns-label {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--neon);
+  display: block;
+  margin-bottom: 1rem;
+  animation: neon-pulse 3s ease-in-out infinite;
+}
+
+/* ─── Title ──────────────────────────────────────────────────────── */
+.ns-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0 0 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Subtitle ───────────────────────────────────────────────────── */
+.ns-subtitle {
+  font-family: "Rajdhani", sans-serif;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 2.5rem;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+  max-width: 340px;
+}
+
+/* ─── Progress Bar ───────────────────────────────────────────────── */
+.ns-progress-bar {
+  width: 160px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ns-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--neon);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--neon);
+  transition: width 0.05s linear;
+}
+
+/* ─── Dots Navigation ────────────────────────────────────────────── */
+.ns-dots {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+}
+
+.ns-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.ns-dot.ns-active {
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon);
+  transform: scale(1.4);
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .ns-sticky {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  /* On mobile, video is full background, text overlays at bottom */
+  .ns-video-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+    position: absolute;
+    inset: 0;
+  }
+
+  .ns-image-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(10, 11, 13, 0.92) 0%,
+      rgba(10, 11, 13, 0.4) 50%,
+      transparent 100%
+    );
+  }
+
+  .ns-panels-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+    align-items: flex-end;
+    padding: 0;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+  }
+
+  .ns-panel {
+    top: auto;
+    bottom: 2.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    transform: translateY(16px);
+  }
+
+  .ns-panel.ns-active {
+    transform: translateY(0);
+  }
+
+  .ns-counter-active {
+    font-size: 1.75rem;
+  }
+
+  .ns-dots {
+    right: 1rem;
+  }
+}
+
+/* ─── prefers-reduced-motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ns-panel {
+    transition: opacity 0.2s ease;
+  }
+
+  .ns-label {
+    animation: none;
+  }
+
+  .scroll-chevrons span {
+    animation: none;
+  }
+}
+
