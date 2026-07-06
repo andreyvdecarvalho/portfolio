@@ -36,8 +36,9 @@ const sections: SectionData[] = [
 ];
 
 // Each section gets this many vh of scroll distance
-const SCROLL_PER_SECTION_VH = 110;
-const TOTAL_HEIGHT_VH = sections.length * SCROLL_PER_SECTION_VH;
+// 25vh means very little scrolling is needed per section (approx 1-2 wheel ticks)
+const SCROLL_PER_SECTION_VH = 25;
+const TOTAL_HEIGHT_VH = (sections.length * SCROLL_PER_SECTION_VH) + 100;
 
 export default function NarrativeSections() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -47,16 +48,13 @@ export default function NarrativeSections() {
   const progressRef = useRef<HTMLDivElement[]>([]);
   const dotsRef = useRef<HTMLDivElement[]>([]);
   
-  // Use a ref to store the target time for lerping to avoid triggering re-renders
   const targetTimeRef = useRef(0);
-  const smoothedTimeRef = useRef(0);
   const rafRef = useRef<number | null>(null);
+  const activeSectionRef = useRef(-1);
 
   useEffect(() => {
     const scrollArea = scrollAreaRef.current;
     if (!scrollArea) return;
-
-    // Animations proceed regardless of OS preferences for this specific section
 
     const handleScroll = () => {
       const rect = scrollArea.getBoundingClientRect();
@@ -65,18 +63,37 @@ export default function NarrativeSections() {
       const totalScrollPx = sectionHeightPx * sections.length;
       const lastIdx = sections.length - 1;
 
-      console.log(`handleScroll fired, scrolled=${scrolled}, readyState=${videoRef.current?.readyState}`);
+      // Determine active section index
+      let newActiveIndex = -1;
+      sections.forEach((_, index) => {
+        const start = index * sectionHeightPx;
+        const end = (index + 1) * sectionHeightPx;
+        if (index === lastIdx ? scrolled >= start : scrolled >= start && scrolled < end) {
+          newActiveIndex = index;
+        }
+      });
 
-      // Update Video Target Time
-      if (videoRef.current && videoRef.current.readyState >= 1) { // HAVE_METADATA or more
+      // Handle Video Playback Trigger
+      if (videoRef.current && videoRef.current.readyState >= 1 && newActiveIndex !== -1) {
         const duration = videoRef.current.duration;
-        if (duration) {
-          // Calculate global progress within the scroll area
-          const maxScroll = totalScrollPx - window.innerHeight;
-          const globalProgress = Math.max(0, Math.min(1, scrolled / maxScroll));
-          // Video time mapped to global progress
-          targetTimeRef.current = globalProgress * duration;
-          console.log(`SCROLL: prog=${globalProgress.toFixed(2)}, target=${targetTimeRef.current.toFixed(2)}`);
+        const segmentLen = duration / sections.length;
+
+        if (newActiveIndex !== activeSectionRef.current) {
+          const prevIndex = activeSectionRef.current;
+          activeSectionRef.current = newActiveIndex;
+
+          const targetStart = newActiveIndex * segmentLen;
+          const targetEnd = (newActiveIndex + 1) * segmentLen;
+          
+          targetTimeRef.current = targetEnd;
+
+          // If scrolled backwards or skipped forward, jump directly to the section start
+          if (newActiveIndex < prevIndex || newActiveIndex > prevIndex + 1) {
+            videoRef.current.currentTime = targetStart;
+          }
+          
+          // Play the video until it reaches targetEnd
+          videoRef.current.play().catch(() => {});
         }
       }
 
@@ -84,9 +101,7 @@ export default function NarrativeSections() {
       sections.forEach((_, index) => {
         const start = index * sectionHeightPx;
         const end = (index + 1) * sectionHeightPx;
-
-        const isActive =
-          index === lastIdx ? scrolled >= start : scrolled >= start && scrolled < end;
+        const isActive = index === newActiveIndex;
 
         const panel = panelsRef.current[index];
         const progress = progressRef.current[index];
@@ -96,53 +111,47 @@ export default function NarrativeSections() {
         const dot = dotsRef.current[index];
         if (dot) dot.classList.toggle("ns-active", isActive);
 
-        if (progress && isActive) {
-          const sectionProgress = Math.min(
-            1,
-            Math.max(0, (scrolled - start) / sectionHeightPx),
-          );
-          progress.style.width = `${sectionProgress * 100}%`;
+        if (progress) {
+          if (isActive) {
+            const sectionProgress = Math.min(
+              1,
+              Math.max(0, (scrolled - start) / sectionHeightPx),
+            );
+            progress.style.transform = `scaleX(${sectionProgress})`;
+          } else if (index < newActiveIndex) {
+            progress.style.transform = `scaleX(1)`;
+          } else {
+            progress.style.transform = `scaleX(0)`;
+          }
         }
       });
     };
 
     // Force video engine to wake up (crucial for iOS and some desktop browsers)
-    // Otherwise setting currentTime is silently ignored!
     if (videoRef.current) {
       videoRef.current.load();
       videoRef.current.play().then(() => {
         videoRef.current?.pause();
-      }).catch(() => {
-        // Ignore autoplay policy errors, the attempt itself usually unlocks seeking
-      });
-      // Also ensure handleScroll is called once metadata is ready
+      }).catch(() => {});
       videoRef.current.addEventListener('loadedmetadata', handleScroll);
     }
-
-    let lastSeek = 0;
     
-    // Smooth scrub loop
-    const renderLoop = (time: number) => {
-      if (videoRef.current && !videoRef.current.paused) {
-        videoRef.current.pause();
+    // Play loop that monitors when to pause
+    const renderLoop = () => {
+      const video = videoRef.current;
+      if (!video) {
+        rafRef.current = requestAnimationFrame(renderLoop);
+        return;
       }
 
-      const target = targetTimeRef.current;
-      // Mathematical Lerp (Linear Interpolation) to glide the time smoothly
-      smoothedTimeRef.current += (target - smoothedTimeRef.current) * 0.08;
-
-      if (videoRef.current) {
-        const video = videoRef.current;
-        const current = video.currentTime;
-        
-        const diff = smoothedTimeRef.current - current;
-        // Throttle updates to ~30fps (33ms) to prevent H264 decoder lockups
-        // while maintaining the buttery smooth visual glide
-        if (Math.abs(diff) > 0.02 && (time - lastSeek > 33)) {
-          video.currentTime = smoothedTimeRef.current;
-          lastSeek = time;
+      if (!video.paused) {
+        // Stop playing if we reached the target time for this section
+        if (video.currentTime >= targetTimeRef.current) {
+          video.pause();
+          video.currentTime = targetTimeRef.current; // exact stop
         }
       }
+      
       rafRef.current = requestAnimationFrame(renderLoop);
     };
 
@@ -158,8 +167,6 @@ export default function NarrativeSections() {
 
   return (
     <div id="narrative-root" className="relative">
-      <div className="narrative-gradient-transition" aria-hidden="true" />
-
       <div
         ref={scrollAreaRef}
         className="ns-scroll-area"

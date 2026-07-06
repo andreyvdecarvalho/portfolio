@@ -217,21 +217,7 @@
   opacity: 0.6;
 }
 
-/* ─── Gradient transition (claro → escuro) ───────────────────────── */
-.narrative-gradient-transition {
-  position: absolute;
-  top: -150px; /* Pulls the gradient UP over the previous section */
-  left: 0;
-  width: 100%;
-  height: 151px; /* 1px extra to ensure no seam at the bottom */
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--dark-bg)
-  );
-  z-index: 30; /* Overlays the previous section's elements */
-  pointer-events: none;
-}
+
 
 /* ─── Narrative Root ─────────────────────────────────────────────── */
 #narrative-root {
@@ -271,6 +257,8 @@
   object-fit: cover;
   object-position: center center;
   display: block;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .ns-image-overlay {
@@ -390,11 +378,13 @@
 
 .ns-progress-fill {
   height: 100%;
-  width: 0%;
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(0);
   background: var(--neon);
   border-radius: 2px;
   box-shadow: 0 0 8px var(--neon);
-  transition: width 0.05s linear;
+  will-change: transform;
 }
 
 /* ─── Dots Navigation ────────────────────────────────────────────── */
