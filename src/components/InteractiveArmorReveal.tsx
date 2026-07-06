@@ -15,8 +15,8 @@ export default function InteractiveArmorReveal({
   baseImage = img1,
   revealImage = img2,
   pressImage = img3,
-  radius = 140,
-  feather = 60,
+  radius = 160,
+  feather = 110,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 50, y: 50 });
@@ -40,16 +40,30 @@ export default function InteractiveArmorReveal({
   };
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center">
+    <section className="relative h-screen w-full flex items-center justify-center bg-[#aaa39c] overflow-hidden">
       {/* Instrução de uso */}
-      <p className="absolute top-1 left-0 right-0 z-10 text-center text-[10px] md:text-xs text-neutral-500 pointer-events-none select-none">
+      <p className="absolute top-1 left-0 right-0 z-10 text-center text-[10px] md:text-xs text-neutral-800 pointer-events-none select-none">
         Passe o mouse e clique para revelar
       </p>
 
+      {/* Sombra em degradê do preto (#0a0b0d) em ambas as laterais para a cor atual (#aaa39c) */}
+      <div
+        className="absolute inset-y-0 left-0 w-[22vw] pointer-events-none bg-gradient-to-r from-[#0a0b0d] to-transparent z-20"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-y-0 right-0 w-[22vw] pointer-events-none bg-gradient-to-l from-[#0a0b0d] to-transparent z-20"
+        aria-hidden="true"
+      />
+
       <div
         ref={ref}
-        className="relative w-[70vw] h-screen mx-auto overflow-hidden rounded-2xl bg-background select-none touch-none cursor-crosshair"
-        style={{ aspectRatio: "unset" }}
+        className="relative w-[70vw] h-screen mx-auto overflow-hidden rounded-2xl bg-[#aaa39c] select-none touch-none cursor-crosshair transition-transform duration-200 ease-out"
+        style={{ 
+          aspectRatio: "unset",
+          transform: pressed ? "translate(0%, 0.7%) scale(0.98)" : "translate(0%, 0%) scale(1)",
+          transformOrigin: "center top"
+        }}
         onPointerEnter={() => setActive(true)}
         onPointerLeave={() => {
           setActive(false);
@@ -79,7 +93,6 @@ export default function InteractiveArmorReveal({
             ...maskStyle,
             transform: "translate(0%, 0%) scale(1)",
             transformOrigin: "center top",
-            filter: "brightness(1.07) contrast(0.97)",
           }}
         />
         <img
@@ -89,14 +102,11 @@ export default function InteractiveArmorReveal({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-200 ease-out"
           style={{
             opacity: pressed ? 1 : 0,
-            transform: "translate(0%, 0.7%) scale(0.98)",
+            transform: "translate(0%, 0%) scale(1)",
             transformOrigin: "center top",
-            filter: "brightness(1.07) contrast(0.97)",
           }}
         />
       </div>
-
-
     </section>
   );
 }
