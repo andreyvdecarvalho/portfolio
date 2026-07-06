@@ -158,18 +158,41 @@
 
 /* ─── Keyframes ──────────────────────────────────────────────────── */
 @keyframes neon-pulse {
-  0%, 100% { box-shadow: 0 0 6px var(--neon), 0 0 18px #00ff8840; }
-  50%       { box-shadow: 0 0 14px var(--neon), 0 0 40px #00ff8866; }
+
+  0%,
+  100% {
+    box-shadow: 0 0 6px var(--neon), 0 0 18px #00ff8840;
+  }
+
+  50% {
+    box-shadow: 0 0 14px var(--neon), 0 0 40px #00ff8866;
+  }
 }
 
 @keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50%       { transform: translateY(6px); opacity: 0.5; }
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(6px);
+    opacity: 0.5;
+  }
 }
 
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ─── Scroll Indicator ───────────────────────────────────────────── */
@@ -222,7 +245,7 @@
 /* ─── Narrative Root ─────────────────────────────────────────────── */
 #narrative-root {
   position: relative;
-  background-color: var(--dark-bg);
+  background-color: #aaa39c;
 }
 
 /* ─── Sticky Scroll Area ─────────────────────────────────────────── */
@@ -255,21 +278,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: left top;
   display: block;
-  transform: translateZ(0);
+  transform-origin: left top;
+  transform: scale(1.15) translateX(17%) translateZ(0);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%);
+  mask-image: linear-gradient(to right, transparent 0%, black 5%);
   will-change: transform;
 }
 
 .ns-image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    var(--dark-bg) 0%,
-    rgba(10, 11, 13, 0.45) 25%,
-    transparent 60%
-  );
+  background: linear-gradient(to right,
+      var(--dark-bg) 0%,
+      rgba(10, 11, 13, 0.45) 25%,
+      transparent 60%);
   pointer-events: none;
 }
 
@@ -285,14 +309,14 @@
 
 .ns-panel {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: clamp(2rem, 5vw, 5rem);
   right: 2rem;
   transform: translateY(calc(-50% + 24px));
   opacity: 0;
   transition:
-    opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity 0.15s ease-out,
+    transform 0.15s ease-out;
   will-change: opacity, transform;
 }
 
@@ -417,55 +441,24 @@
 /* ─── Mobile ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .ns-sticky {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-  }
-
-  /* On mobile, video is full background, text overlays at bottom */
-  .ns-video-wrapper {
-    grid-column: 1;
-    grid-row: 1;
-    position: absolute;
-    inset: 0;
-  }
-
-  .ns-image-overlay {
-    background: linear-gradient(
-      to top,
-      rgba(10, 11, 13, 0.92) 0%,
-      rgba(10, 11, 13, 0.4) 50%,
-      transparent 100%
-    );
+    grid-template-columns: 50% 50%;
   }
 
   .ns-panels-wrapper {
-    grid-column: 1;
-    grid-row: 1;
-    align-items: flex-end;
-    padding: 0;
-    position: absolute;
-    inset: 0;
-    z-index: 3;
+    padding-left: 1.5rem;
   }
 
   .ns-panel {
-    top: auto;
-    bottom: 2.5rem;
     left: 1.5rem;
-    right: 1.5rem;
-    transform: translateY(16px);
-  }
-
-  .ns-panel.ns-active {
-    transform: translateY(0);
-  }
-
-  .ns-counter-active {
-    font-size: 1.75rem;
-  }
-
-  .ns-dots {
     right: 1rem;
+  }
+
+  .ns-title {
+    font-size: 1.5rem;
+  }
+
+  .ns-subtitle {
+    font-size: 0.9rem;
   }
 }
 
@@ -483,4 +476,3 @@
     animation: none;
   }
 }
-
