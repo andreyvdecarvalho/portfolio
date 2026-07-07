@@ -9,6 +9,7 @@ interface Props {
   pressImage?: string;
   radius?: number;
   feather?: number;
+  onNavigate?: (section: "inicio" | "sobre" | "habilidades") => void;
 }
 
 export default function InteractiveArmorReveal({
@@ -17,6 +18,7 @@ export default function InteractiveArmorReveal({
   pressImage = img3,
   radius = 160,
   feather = 110,
+  onNavigate,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 50, y: 50 });
@@ -41,31 +43,6 @@ export default function InteractiveArmorReveal({
 
   return (
     <section id="inicio" className="relative h-screen w-full flex items-center justify-center bg-[#aaa39c] overflow-hidden">
-      {/* Top Navigation Bar */}
-      <nav className="fixed top-0 left-0 w-full z-50 py-5 px-6 flex justify-center items-center" data-purpose="top-navigation">
-        <ul className="flex gap-6 md:gap-12 items-center">
-          <li>
-            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-85 hover:opacity-100" href="#inicio">
-              Inicio
-            </a>
-          </li>
-          <li>
-            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-85 hover:opacity-100" href="#sobre">
-              Sobre
-            </a>
-          </li>
-          <li>
-            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-85 hover:opacity-100" href="#habilidades">
-              Habilidades
-            </a>
-          </li>
-          <li>
-            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-85 hover:opacity-100" href="#contato">
-              Contato
-            </a>
-          </li>
-        </ul>
-      </nav>
 
       {/* Floating HUD Instruction on Right */}
       <div className="absolute top-28 right-[2vw] md:right-[4vw] z-30 pointer-events-none flex items-center gap-3">
@@ -88,12 +65,12 @@ export default function InteractiveArmorReveal({
           <p className="text-gray-300 max-w-md text-[13px] md:text-base leading-relaxed mb-10 font-sans">
             Arquitetando e construindo soluções web modernas, sistemas de alta performance e interfaces interativas inovadoras.
           </p>
-          <a
-            className="inline-block border border-white/20 px-8 py-3 font-michroma text-[9px] md:text-[10px] tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-500 rounded-sm text-white"
-            href="#sobre"
+          <button
+            onClick={() => onNavigate?.("sobre")}
+            className="inline-block border border-white/20 px-8 py-3 font-michroma text-[9px] md:text-[10px] tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-500 rounded-sm text-white bg-transparent cursor-pointer outline-none"
           >
             Explorar
-          </a>
+          </button>
         </div>
       </div>
 

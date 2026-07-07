@@ -502,3 +502,11 @@
   opacity: 1;
   text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 0.6);
 }
+.nav-link.active::after {
+  width: 100%;
+}
+.nav-link.active {
+  letter-spacing: 0.1em;
+  opacity: 1 !important;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 0.6);
+}
