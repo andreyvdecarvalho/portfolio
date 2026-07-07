@@ -40,19 +40,70 @@ export default function InteractiveArmorReveal({
   };
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center bg-[#aaa39c] overflow-hidden">
-      {/* Instrução de uso */}
-      <p className="absolute top-1 left-0 right-0 z-10 text-center text-[10px] md:text-xs text-neutral-800 pointer-events-none select-none">
-        Passe o mouse e clique para revelar
-      </p>
+    <section id="inicio" className="relative h-screen w-full flex items-center justify-center bg-[#aaa39c] overflow-hidden">
+      {/* Top Navigation Bar */}
+      <nav className="fixed top-0 left-0 w-full z-50 py-10 px-6 flex justify-center items-center" data-purpose="top-navigation">
+        <ul className="flex gap-6 md:gap-12 items-center">
+          <li>
+            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-60 hover:opacity-100" href="#inicio">
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-60 hover:opacity-100" href="#sobre">
+              Sobre
+            </a>
+          </li>
+          <li>
+            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-60 hover:opacity-100" href="#habilidades">
+              Habilidades
+            </a>
+          </li>
+          <li>
+            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-60 hover:opacity-100" href="#contato">
+              Contato
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Floating HUD Instruction on Right */}
+      <div className="absolute top-28 right-[6vw] md:right-[10vw] z-30 pointer-events-none flex items-center gap-3">
+        <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-ping" />
+        <span className="font-michroma text-[8px] tracking-widest uppercase text-white/60">
+          [ PASSE O MOUSE E CLIQUE PARA REVELAR ]
+        </span>
+      </div>
+
+      {/* Left-aligned Hero Content Overlay */}
+      <div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-start px-[6vw] md:px-[10vw]">
+        <div className="max-w-2xl text-left pointer-events-auto mt-20 md:mt-0">
+          <p className="font-michroma text-[9px] md:text-xs tracking-[0.5em] uppercase mb-4 text-[#00ff88] animate-pulse">
+            Software & Web Developer
+          </p>
+          <h1 className="font-michroma text-3xl md:text-5xl lg:text-6xl mb-6 leading-tight text-white select-none">
+            ENGENHEIRO <br /> <span className="text-white/50">DE SOFTWARE</span>
+          </h1>
+          <div className="h-[1px] w-24 bg-[#00ff88]/40 mb-8 hidden lg:block"></div>
+          <p className="text-gray-300 max-w-md text-[11px] md:text-sm leading-relaxed mb-10 font-sans">
+            Arquitetando e construindo soluções web modernas, sistemas de alta performance e interfaces interativas inovadoras.
+          </p>
+          <a
+            className="inline-block border border-white/20 px-8 py-3 font-michroma text-[9px] md:text-[10px] tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-500 rounded-sm text-white"
+            href="#sobre"
+          >
+            Explorar
+          </a>
+        </div>
+      </div>
 
       {/* Sombra em degradê do preto (#0a0b0d) em ambas as laterais para a cor atual (#aaa39c) */}
       <div
-        className="absolute inset-y-0 left-0 w-[22vw] pointer-events-none bg-gradient-to-r from-[#0a0b0d] to-transparent z-20"
+        className="absolute inset-y-0 left-0 w-[45vw] pointer-events-none bg-gradient-to-r from-[#0a0b0d] via-[#0a0b0d]/70 to-transparent z-20"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-y-0 right-0 w-[22vw] pointer-events-none bg-gradient-to-l from-[#0a0b0d] to-transparent z-20"
+        className="absolute inset-y-0 right-0 w-[25vw] pointer-events-none bg-gradient-to-l from-[#0a0b0d] via-[#0a0b0d]/50 to-transparent z-20"
         aria-hidden="true"
       />
 
@@ -106,6 +157,14 @@ export default function InteractiveArmorReveal({
             transformOrigin: "center top",
           }}
         />
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-55 z-30 pointer-events-none">
+        <span className="font-michroma text-[8px] uppercase tracking-[0.3em] text-white">Scroll</span>
+        <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1/2 bg-[#00ff88] animate-[bounce_2s_infinite]"></div>
+        </div>
       </div>
     </section>
   );
