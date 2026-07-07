@@ -3,7 +3,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === "production" ? "/portfolio/" : "/",
   resolve: {
     // Native tsconfig path resolution (Vite 8+ built-in, replaces vite-tsconfig-paths plugin)
     tsconfigPaths: true,
@@ -12,7 +13,11 @@ export default defineConfig({
     tailwindcss(),
     tanstackStart({
       server: { entry: "src/server.ts" },
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+      },
     }),
     react(),
   ],
-});
+}));
