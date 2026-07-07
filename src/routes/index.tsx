@@ -3,12 +3,13 @@ import { useState } from "react";
 import InteractiveArmorReveal from "@/components/sections/InteractiveArmorReveal";
 import NarrativeSections from "@/components/sections/NarrativeSections";
 import SkillsSection from "@/components/sections/SkillsSection";
+import ContactSection from "@/components/sections/ContactSection";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Section = "inicio" | "sobre" | "habilidades";
+type Section = "inicio" | "sobre" | "habilidades" | "contato";
 
 function Index() {
   const [activeSection, setActiveSection] = useState<Section>("inicio");
@@ -50,9 +51,9 @@ function Index() {
           </li>
           <li>
             <button
-              onClick={() => setActiveSection("habilidades")}
+              onClick={() => setActiveSection("contato")}
               className={`nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white bg-transparent border-none cursor-pointer p-0 outline-none transition-opacity duration-300 ${
-                activeSection === "habilidades" ? "active opacity-100" : "opacity-85"
+                activeSection === "contato" ? "active opacity-100" : "opacity-85"
               }`}
             >
               Contato
@@ -88,6 +89,15 @@ function Index() {
           }`}
         >
           <SkillsSection />
+        </div>
+
+        {/* Section 4: Contato */}
+        <div
+          className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out ${
+            activeSection === "contato" ? "opacity-100 z-10 pointer-events-auto scale-100" : "opacity-0 z-0 pointer-events-none scale-95"
+          }`}
+        >
+          <ContactSection />
         </div>
       </div>
     </main>
