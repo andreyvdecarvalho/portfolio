@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import InteractiveArmorReveal from "@/components/sections/InteractiveArmorReveal";
 import NarrativeSections from "@/components/sections/NarrativeSections";
 
-export const Route = createFileRoute("/")(({
+export const Route = createFileRoute("/")({
   component: Index,
-}));
+});
 
 function Index() {
   return (
