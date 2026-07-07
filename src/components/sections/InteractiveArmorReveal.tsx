@@ -42,25 +42,25 @@ export default function InteractiveArmorReveal({
   return (
     <section id="inicio" className="relative h-screen w-full flex items-center justify-center bg-[#aaa39c] overflow-hidden">
       {/* Top Navigation Bar */}
-      <nav className="fixed top-0 left-0 w-full z-50 py-10 px-6 flex justify-center items-center" data-purpose="top-navigation">
+      <nav className="fixed top-0 left-0 w-full z-50 py-5 px-6 flex justify-center items-center" data-purpose="top-navigation">
         <ul className="flex gap-6 md:gap-12 items-center">
           <li>
-            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-60 hover:opacity-100" href="#inicio">
+            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-85 hover:opacity-100" href="#inicio">
               Inicio
             </a>
           </li>
           <li>
-            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-60 hover:opacity-100" href="#sobre">
+            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-85 hover:opacity-100" href="#sobre">
               Sobre
             </a>
           </li>
           <li>
-            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-60 hover:opacity-100" href="#habilidades">
+            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-85 hover:opacity-100" href="#habilidades">
               Habilidades
             </a>
           </li>
           <li>
-            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-60 hover:opacity-100" href="#contato">
+            <a className="nav-link font-michroma text-[10px] md:text-xs uppercase tracking-[0.3em] text-white opacity-85 hover:opacity-100" href="#contato">
               Contato
             </a>
           </li>
@@ -68,15 +68,15 @@ export default function InteractiveArmorReveal({
       </nav>
 
       {/* Floating HUD Instruction on Right */}
-      <div className="absolute top-28 right-[6vw] md:right-[10vw] z-30 pointer-events-none flex items-center gap-3">
+      <div className="absolute top-28 right-[2vw] md:right-[4vw] z-30 pointer-events-none flex items-center gap-3">
         <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-ping" />
         <span className="font-michroma text-[8px] tracking-widest uppercase text-white/60">
-          [ PASSE O MOUSE E CLIQUE PARA REVELAR ]
+          [NA FOTO: PASSE O MOUSE E CLIQUE PARA REVELAR ]
         </span>
       </div>
 
       {/* Left-aligned Hero Content Overlay */}
-      <div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-start px-[6vw] md:px-[10vw]">
+      <div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-start px-[2vw] md:px-[4vw]">
         <div className="max-w-2xl text-left pointer-events-auto mt-20 md:mt-0">
           <p className="font-michroma text-[9px] md:text-xs tracking-[0.5em] uppercase mb-4 text-[#00ff88] animate-pulse">
             Software &amp; Web Developer
@@ -85,7 +85,7 @@ export default function InteractiveArmorReveal({
             ENGENHEIRO <br /> <span className="text-white/50">DE SOFTWARE</span>
           </h1>
           <div className="h-[1px] w-24 bg-[#00ff88]/40 mb-8 hidden lg:block"></div>
-          <p className="text-gray-300 max-w-md text-[11px] md:text-sm leading-relaxed mb-10 font-sans">
+          <p className="text-gray-300 max-w-md text-[13px] md:text-base leading-relaxed mb-10 font-sans">
             Arquitetando e construindo soluções web modernas, sistemas de alta performance e interfaces interativas inovadoras.
           </p>
           <a
@@ -159,13 +159,19 @@ export default function InteractiveArmorReveal({
         />
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-55 z-30 pointer-events-none">
-        <span className="font-michroma text-[8px] uppercase tracking-[0.3em] text-white">Scroll</span>
-        <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1/2 bg-[#00ff88] animate-[bounce_2s_infinite]"></div>
-        </div>
+      {/* Bottom Right Corner Info */}
+      <div className="absolute bottom-10 right-[2vw] md:right-[4vw] z-30 pointer-events-none flex flex-col items-end gap-2 text-right">
+        <span className="font-michroma text-[9px] md:text-[10px] tracking-widest uppercase text-white opacity-85" style={{ textShadow: "0 0 10px rgba(255, 255, 255, 0.4)" }}>
+          70+ estudos de casos
+        </span>
+        <span className="font-michroma text-[9px] md:text-[10px] tracking-widest uppercase text-white opacity-85" style={{ textShadow: "0 0 10px rgba(255, 255, 255, 0.4)" }}>
+          80+ cursos concluídos
+        </span>
+        <span className="font-michroma text-[9px] md:text-[10px] tracking-widest uppercase text-white opacity-85" style={{ textShadow: "0 0 10px rgba(255, 255, 255, 0.4)" }}>
+          1050+ exercícios resolvidos
+        </span>
       </div>
+
     </section>
   );
 }

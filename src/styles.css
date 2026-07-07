@@ -482,6 +482,7 @@
 .nav-link {
   transition: all 0.3s ease-in-out;
   position: relative;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 2px rgba(255, 255, 255, 0.4);
 }
 .nav-link::after {
   content: '';
@@ -499,4 +500,5 @@
 .nav-link:hover {
   letter-spacing: 0.1em;
   opacity: 1;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 0.6);
 }
